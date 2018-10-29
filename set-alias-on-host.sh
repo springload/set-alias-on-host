@@ -22,7 +22,7 @@ fi
 
 # using tmp file and cat > because docker volume mount doesn't allow file replace
 cat ${HOST_FILE} | grep -Fv "${HOST_ALIAS}" > ${TMP_FILE} # remove all lines with host alias
-echo "${HOST_ENTRY}" >> /tmp/hosts  # add new host alias entry to the end of the file
+echo "${HOST_ENTRY}" >> ${TMP_FILE}  # add new host alias entry to the end of the file
 cat ${TMP_FILE} > ${HOST_FILE};  # replace content of the host hosts file
 rm ${TMP_FILE}
 echo "${HOST_ENTRY} entry added to hosts file"

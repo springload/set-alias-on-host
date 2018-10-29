@@ -25,6 +25,6 @@ web:
     volumes:
       - "/etc/hosts:/host/etc/hosts"  # for linux based host
       - "/private/etc/hosts:/host/etc/hosts" # for macOS based host
-    entrypoint: ["set-route-in-hosts.sh", "/host/etc/hosts", "www.web.test"]
+    entrypoint: ["set-alias-on-host.sh", "/host/etc/hosts", "www.web.test"]
     command: ["nginx", "-g", "daemon off;"]  # your app specific
 ```
