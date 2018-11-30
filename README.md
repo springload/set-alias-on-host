@@ -17,16 +17,20 @@ script will register IP address of the web server container only
 
 Script usage
 ```
-set-alias-on-host.sh /path/to/host/machine/etc/hosts/file www.test.domain command-to-start-after
+set-alias-on-host.sh /path/to/host/machine/etc/hosts/file www.test.domain optimal-command-to-start-after
 ```
 
-Dockerfile usage
+### Docker setup
+
+Add script to your docker image 
+
+Dockerfile example
 ```
 ADD https://raw.githubusercontent.com/springload/set-alias-on-host/master/set-alias-on-host.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/set-alias-on-host.sh
 ```
 
-docker-compose usage
+docker-compose example within the same container as your service
 ```
 web:
     build:
@@ -43,4 +47,10 @@ web:
     command: ["set-alias-on-host.sh", "/host/etc/hosts", "www.web.test", "nginx", "-g", "daemon off;"]
 ```
 
-On MacOs you may need to allow a group write permission for `/private/etc/hosts` file
+> On MacOs you may need to allow a group write permission for `/private/etc/hosts` file
+
+Start your project with `docker-compose up` and you should see message similar to 
+> www.web.test entry added to hosts file
+
+Check your system `hosts` file for new entry for `www.web.test` domain
+Access your service wia `www.web.test` domain in your local browser
