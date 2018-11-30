@@ -27,4 +27,6 @@ cat ${TMP_FILE} > ${HOST_FILE};  # replace content of the host hosts file
 rm ${TMP_FILE}
 echo "${HOST_ENTRY} entry added to hosts file"
 
-exec "$@"
+if [ "$@" != "" ]; then
+    exec "$@"
+fi
