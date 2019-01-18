@@ -16,17 +16,17 @@ fi
 
 HOST_ENTRY=$(getent hosts ${HOST_ALIAS} | awk '{ print $1"\t"$2 }') # get alias IP
 if [ -z "${HOST_ENTRY}" ]; then
-    echo "Can't find IP for ${HOST_ALIAS}"
+    echo "Can't find IP for ${HOST_ALIAS} is docker container running this command connected to a proper docker network?"
     exit 3
 fi
 
 # using tmp file and cat > because docker volume mount doesn't allow file replace
-cat ${HOST_FILE} | grep -Fv "${HOST_ALIAS}" > ${TMP_FILE} # remove all lines with host alias
-echo "${HOST_ENTRY}" >> ${TMP_FILE}  # add new host alias entry to the end of the file
+cat ${HOST_FILE} | grep -Fv -e "${HOST_ALIAS}" > ${TMP_FILE} # remove all lines with host alias
+printf "%s\n" "${HOST_ENTRY}" >> ${TMP_FILE}  # add new host alias entry to the end of the file
 cat ${TMP_FILE} > ${HOST_FILE};  # replace content of the host hosts file
 rm ${TMP_FILE}
 echo "${HOST_ENTRY} entry added to hosts file"
 
-if [ "$@" != "" ]; then
+if [ ! -z "$*" ]; then
     exec "$@"
 fi
